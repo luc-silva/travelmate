@@ -2,14 +2,14 @@ package entities;
 
 import entities.enums.RoomStatus;
 
-public class Room {
-    private double dailyPrice;
-    private RoomStatus status;
-    public Room(Double dailyPrice, RoomStatus status){
+public abstract class Room {
+    protected double dailyPrice;
+    protected RoomStatus status;
+    protected Room(Double dailyPrice, RoomStatus status){
         this.dailyPrice = dailyPrice;
         this.status = status;
     }
-    public Room(){
+    protected Room(){
         this.dailyPrice = 456.0;
         this.status = RoomStatus.EMPTY;
     }
@@ -28,5 +28,13 @@ public class Room {
 
     public RoomStatus getStatus() {
         return status;
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Status: " + this.status);
+        sb.append("Price: " + this.dailyPrice);
+        return "";
     }
 }
