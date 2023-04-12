@@ -2,11 +2,14 @@ package entities;
 
 import entities.enums.RoomStatus;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Room {
     protected double dailyPrice;
+    protected List<Bed> beds = new ArrayList<>();
     protected RoomStatus status;
-    protected Room(Double dailyPrice, RoomStatus status){
-        this.dailyPrice = dailyPrice;
+    protected Room(RoomStatus status){
         this.status = status;
     }
     protected Room(){
@@ -29,6 +32,8 @@ public abstract class Room {
     public RoomStatus getStatus() {
         return status;
     }
+
+    public abstract void getBeds();
 
     @Override
     public String toString(){
