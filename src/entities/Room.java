@@ -35,6 +35,6 @@ public abstract class Room {
         StringBuilder sb = new StringBuilder();
         sb.append("Status: " + this.status);
         sb.append("Price: " + this.dailyPrice);
-        return "";
+        return sb.toString();
     }
 }
