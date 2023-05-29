@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ebf57fab-a0e2-43eb-9133-4f9173ad194f" name="Changes" comment="" />
+    <list default="true" id="ebf57fab-a0e2-43eb-9133-4f9173ad194f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Bed.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Hotel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Room.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/RoomSimple.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/enums/RoomStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/entities/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/entities/Room.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,6 +53,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="model" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -55,6 +68,9 @@
       <updated>1681252768467</updated>
       <workItem from="1681252769702" duration="3163000" />
       <workItem from="1681335761616" duration="4825000" />
+      <workItem from="1681424789997" duration="589000" />
+      <workItem from="1682547247140" duration="599000" />
+      <workItem from="1685394075134" duration="1285000" />
     </task>
     <task id="LOCAL-00001" summary="Revert &quot;Initial commit&quot;&#10;&#10;This reverts commit 4644ab7d">
       <created>1681342406561</created>
