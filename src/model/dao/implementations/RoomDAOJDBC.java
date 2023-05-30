@@ -200,6 +200,46 @@ public class RoomDAOJDBC implements RoomDAO {
     }
 
     @Override
+    public List<Room> listAvailableRooms() {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Room> rooms = new ArrayList<>();
+        try {
+            preparedStatement =
+                    connection.prepareStatement("SELECT * FROM Rooms\n" +
+                            "WHERE resident is null;");
+            resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+                Room room = new Room();
+                room.setId(resultSet.getInt("id"));
+                room.setMax_capability(resultSet.getInt("max_capability"));
+                room.setDoor_number(resultSet.getInt("door_number"));
+                room.setResident(null);
+
+                rooms.add(room);
+
+            }
+            return rooms;
+        }catch (SQLException e){
+            System.out.print(e.getMessage());
+        } finally {
+            try{
+                if(preparedStatement != null){
+                    preparedStatement.close();
+                }
+                if(resultSet != null){
+                    resultSet.close();
+                }
+            } catch (SQLException e){
+                System.out.print(e.getMessage());
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public void addRoom(Room room) {
         PreparedStatement preparedStatement = null;
 
