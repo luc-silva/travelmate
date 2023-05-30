@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RoomDAOJDBC implements RoomDAO {
     Connection connection;
@@ -22,6 +24,7 @@ public class RoomDAOJDBC implements RoomDAO {
         try {
             statement =
                     connection.prepareStatement("SELECT Rooms.*, Clients.name, Clients.age " +
+                                                    "From Rooms " +
                                                     "INNER JOIN Clients " +
                                                     "ON Rooms.resident = Clients.id " +
                                                     "WHERE Rooms.id = ?");
@@ -45,8 +48,12 @@ public class RoomDAOJDBC implements RoomDAO {
             System.out.print(e.getMessage());
         } finally {
             try {
-                statement.close();
-                resultSet.close();
+                if(statement != null){
+                    statement.close();
+                }
+                if(resultSet != null){
+                    resultSet.close();
+                }
             }catch (SQLException e ){
                 System.out.print(e.getMessage());
             }
@@ -86,8 +93,12 @@ public class RoomDAOJDBC implements RoomDAO {
             System.out.print(e.getMessage());
         } finally {
             try {
-                preparedStatement.close();
-                resultSet.close();
+                if(preparedStatement != null){
+                    preparedStatement.close();
+                }
+                if(resultSet != null){
+                    resultSet.close();
+                }
             } catch (SQLException e){
                 System.out.print(e.getMessage());
             }
@@ -127,8 +138,12 @@ public class RoomDAOJDBC implements RoomDAO {
             System.out.print(e.getMessage());
         } finally {
             try{
-                preparedStatement.close();
-                resultSet.close();
+                if(preparedStatement != null){
+                    preparedStatement.close();
+                }
+                if(resultSet != null){
+                    resultSet.close();
+                }
             } catch (SQLException e){
                 System.out.print(e.getMessage());
             }
@@ -137,23 +152,73 @@ public class RoomDAOJDBC implements RoomDAO {
     }
 
     @Override
+    public List<Room> listRooms() {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Room> rooms = new ArrayList<>();
+        try {
+            preparedStatement =
+                    connection.prepareStatement("SELECT Rooms.*, Clients.name as residentName, Clients.age as residentAge\n" +
+                            "FROM Rooms\n" +
+                            "LEFT JOIN Clients\n" +
+                            "ON Rooms.resident = Clients.id");
+            resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+                Room room = new Room();
+                room.setId(resultSet.getInt("id"));
+                room.setMax_capability(resultSet.getInt("max_capability"));
+                room.setDoor_number(resultSet.getInt("door_number"));
+
+                Client client = new Client();
+                client.setName(resultSet.getString("residentName"));
+                client.setId(resultSet.getInt("resident"));
+                client.setAge(resultSet.getInt("residentAge"));
+
+                room.setResident(client);
+
+                rooms.add(room);
+
+            }
+            return rooms;
+        }catch (SQLException e){
+            System.out.print(e.getMessage());
+        } finally {
+            try{
+                if(preparedStatement != null){
+                    preparedStatement.close();
+                }
+                if(resultSet != null){
+                    resultSet.close();
+                }
+            } catch (SQLException e){
+                System.out.print(e.getMessage());
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public void addRoom(Room room) {
         PreparedStatement preparedStatement = null;
 
         try{
-            preparedStatement = connection.prepareStatement("INSERT INTO Rooms (door_number, max_capability, resident)" +
+            preparedStatement = connection.prepareStatement("INSERT INTO Rooms (door_number, max_capability, resident) " +
                     "VALUES (?, ?, ?)");
             preparedStatement.setInt(1, room.getDoor_number());
             preparedStatement.setInt(2, room.getMax_capability());
             preparedStatement.setInt(3, room.getResident().getId());
 
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e){
             System.out.print(e.getMessage());
         } finally {
             try{
-                preparedStatement.close();
+                if(preparedStatement != null) {
+                    preparedStatement.close();
+                }
             } catch (SQLException e){
                 System.out.print(e.getMessage());
             }
@@ -172,7 +237,9 @@ public class RoomDAOJDBC implements RoomDAO {
             System.out.print(e.getMessage());
         } finally {
             try{
-                preparedStatement.close();
+                if(preparedStatement != null){
+                    preparedStatement.close();
+                }
             } catch (SQLException e){
                 System.out.print(e.getMessage());
             }
@@ -195,7 +262,9 @@ public class RoomDAOJDBC implements RoomDAO {
             System.out.print(e.getMessage());
         } finally {
             try{
-                preparedStatement.close();
+                if(preparedStatement != null){
+                    preparedStatement.close();
+                }
             } catch (SQLException e){
                 System.out.print(e.getMessage());
             }
