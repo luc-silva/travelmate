@@ -21,10 +21,8 @@ public class ClientDAOJDBC implements ClientDAO {
         ResultSet resultSet = null;
         try {
             preparedStatement =
-                    connection.prepareStatement("SELECT Clients.*, Rooms.door_number "
-                            + "FROM Clients INNER JOIN Rooms "
-                            + "ON Clients.id = Rooms.resident "
-                            + "WHERE Clients.id = ?");
+                    connection.prepareStatement("SELECT * FROM Clients\n" +
+                            "WHERE id = ?");
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
 
@@ -38,7 +36,6 @@ public class ClientDAOJDBC implements ClientDAO {
                 client.setName(clientName);
                 client.setAge(clientAge);
 
-                System.out.println("Passou aqui");
                 return client;
             }
             return null;
@@ -50,11 +47,12 @@ public class ClientDAOJDBC implements ClientDAO {
 
     @Override
     public List<Client> listClients() {
-        Statement statement = null;
+        PreparedStatement  preparedStatement = null;
         ResultSet resultSet = null;
         List<Client> clientList = new ArrayList<>();
         try {
-            resultSet = statement.executeQuery("SELECT * FROM Clients");
+            preparedStatement = connection.prepareStatement("SELECT * FROM Clients");
+            resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 Client client = new Client();
                 client.setId(resultSet.getInt("id"));
@@ -68,8 +66,8 @@ public class ClientDAOJDBC implements ClientDAO {
             System.out.print(e.getMessage());
         } finally {
             try {
-                if(statement != null){
-                    statement.close();
+                if(preparedStatement != null){
+                    preparedStatement.close();
                 }
                 if (resultSet != null){
                     resultSet.close();

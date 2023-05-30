@@ -4,10 +4,7 @@ import model.dao.RoomDAO;
 import model.entities.Client;
 import model.entities.Room;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +22,7 @@ public class RoomDAOJDBC implements RoomDAO {
             statement =
                     connection.prepareStatement("SELECT Rooms.*, Clients.name, Clients.age " +
                                                     "From Rooms " +
-                                                    "INNER JOIN Clients " +
+                                                    "LEFT JOIN Clients " +
                                                     "ON Rooms.resident = Clients.id " +
                                                     "WHERE Rooms.id = ?");
             statement.setInt(1, id);
@@ -33,6 +30,7 @@ public class RoomDAOJDBC implements RoomDAO {
             if(resultSet.next()){
                Room room = new Room();
                room.setDoor_number(resultSet.getInt("door_number"));
+               room.setMax_capability(resultSet.getInt("max_capability"));
                room.setId(resultSet.getInt("id"));
 
                 Client client = new Client();
@@ -244,11 +242,10 @@ public class RoomDAOJDBC implements RoomDAO {
         PreparedStatement preparedStatement = null;
 
         try{
-            preparedStatement = connection.prepareStatement("INSERT INTO Rooms (door_number, max_capability, resident) " +
-                    "VALUES (?, ?, ?)");
+            preparedStatement = connection.prepareStatement("INSERT INTO Rooms (door_number, max_capability) " +
+                    "VALUES (?, ?)");
             preparedStatement.setInt(1, room.getDoor_number());
             preparedStatement.setInt(2, room.getMax_capability());
-            preparedStatement.setInt(3, room.getResident().getId());
 
             preparedStatement.executeUpdate();
 
@@ -290,12 +287,17 @@ public class RoomDAOJDBC implements RoomDAO {
     public void updateRoomById(Integer id, Room updatedRoom) {
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = connection.prepareStatement("UPDATE Rooms" +
+            preparedStatement = connection.prepareStatement("UPDATE Rooms " +
                     "SET door_number = ?, max_capability = ?, resident = ? " +
                     "WHERE id = ?");
             preparedStatement.setInt(1, updatedRoom.getDoor_number());
             preparedStatement.setInt(2, updatedRoom.getMax_capability());
-            preparedStatement.setInt(3, updatedRoom.getResident().getId());
+            if(updatedRoom.getResident() == null){
+                preparedStatement.setNull(3, Types.INTEGER);
+            } else {
+                preparedStatement.setInt(3, updatedRoom.getResident().getId());
+            }
+            preparedStatement.setInt(4, id);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e){
