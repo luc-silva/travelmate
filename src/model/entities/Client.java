@@ -7,6 +7,7 @@ public class Client implements Serializable{
     String name;
     Integer age;
     Integer id;
+    public Client(){}
     public Client(String name, Integer age, Integer id){
         this.name = name;
         this.age = age;
@@ -47,5 +48,14 @@ public class Client implements Serializable{
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", id=" + id +
+                '}';
     }
 }

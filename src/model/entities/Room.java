@@ -8,6 +8,8 @@ public class Room implements Serializable {
     Integer door_number;
     Client resident;
     Integer id;
+
+    public Room(){}
     public Room(Integer max_capability, Integer door_number, Client resident, Integer id){
         this.max_capability = max_capability;
         this.door_number = door_number;
