@@ -5,6 +5,8 @@ import model.entities.Client;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientDAOJDBC implements ClientDAO {
     Connection connection;
@@ -42,6 +44,39 @@ public class ClientDAOJDBC implements ClientDAO {
             return null;
         } catch (SQLException e){
             System.out.print(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public List<Client> listClients() {
+        Statement statement = null;
+        ResultSet resultSet = null;
+        List<Client> clientList = new ArrayList<>();
+        try {
+            resultSet = statement.executeQuery("SELECT * FROM Clients");
+            while (resultSet.next()){
+                Client client = new Client();
+                client.setId(resultSet.getInt("id"));
+                client.setName(resultSet.getString("name"));
+                client.setAge(resultSet.getInt("age"));
+
+                clientList.add(client);
+            }
+            return  clientList;
+        } catch (SQLException e){
+            System.out.print(e.getMessage());
+        } finally {
+            try {
+                if(statement != null){
+                    statement.close();
+                }
+                if (resultSet != null){
+                    resultSet.close();
+                }
+            } catch (SQLException e){
+                System.out.print(e.getMessage());
+            }
         }
         return null;
     }
