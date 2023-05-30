@@ -53,10 +53,6 @@ public class Client implements Serializable{
 
     @Override
     public String toString() {
-        return "Client{" +
-                "name='" + name + '\'' +
-                ", age=" + age +
-                ", id=" + id +
-                '}';
+        return "Cliente " + "(ID: " + id + ") " + name + ", " + age + " anos ";
     }
 }

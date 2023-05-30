@@ -64,11 +64,12 @@ public class Room implements Serializable {
 
     @Override
     public String toString() {
-        return "Room{" +
-                "max_capability=" + max_capability +
-                ", door_number=" + door_number +
-                ", resident=" + resident +
-                ", id=" + id +
-                '}';
+        if(this.getResident().getName() != null){
+            return "Sala Número " + door_number + "| Capacidade Máxima: "
+                    + max_capability +  " Pessoas, Status: Ocupada por: "
+                    + getResident().getName() + " (ID: " + getResident().getId() + ")";
+        } else {
+            return "Sala Número " + door_number + " | Capacidade Máxima: " + max_capability +  " Pessoas, Status: Vazia";
+        }
     }
 }
