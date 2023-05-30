@@ -2,19 +2,25 @@ package application;
 
 import model.dao.ClientDAO;
 import model.dao.DaoFactory;
+import model.dao.RoomDAO;
 import model.entities.Client;
+import model.entities.Room;
+
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        ClientDAO clientDAO = DaoFactory.createClientDao();
-        Client client = new Client();
-        client.setAge(100);
-        client.setName("Malajuicequias");
-        clientDAO.addClient(client);
+        RoomDAO roomDAO= DaoFactory.createRoomDao();
 
-        Client foundClient = clientDAO.findClientById(1);
-        foundClient.setName("not lucas");
-        clientDAO.updateClientById(1, foundClient);
-        System.out.print(foundClient);
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Selecione uma sala:");
+        int escolha = scanner.nextInt();
+
+        Room room = roomDAO.findRoomByNumber(escolha);
+        if(room != null){
+            System.out.print(room);
+        } else {
+            System.out.print("Nenhuma Sala Encontrada");
+        }
     }
 }
